@@ -1,581 +1,350 @@
 <!DOCTYPE html>
 <html>
-
 <head>
-
-<title>🐱 CatTok</title>
-
-<style>
-
-*{
-box-sizing:border-box;
-font-family:Arial;
-}
-
-body{
-margin:0;
-background:#ffe6f2;
-transition:.3s;
-}
-
-
-.dark{
-background:#17121c;
-color:white;
-}
-
-
-header{
-background:white;
-padding:20px;
-text-align:center;
-position:sticky;
-top:0;
-z-index:5;
-}
-
-
-.dark header{
-background:#292033;
-}
-
-
-h1{
-font-size:45px;
-color:#ff4fa3;
-}
-
-
-input, textarea{
-
-padding:12px;
-border-radius:20px;
-border:2px solid pink;
-margin:5px;
-
-}
-
-
-button{
-
-background:#ff4fa3;
-color:white;
-border:0;
-padding:10px 15px;
-border-radius:20px;
-cursor:pointer;
-
-}
-
-
-button:hover{
-
-transform:scale(1.1);
-
-}
-
-
-.feed{
-
-display:flex;
-flex-direction:column;
-align-items:center;
-gap:30px;
-padding:30px;
-
-}
-
-
-
-.cat{
-
-background:white;
-width:360px;
-border-radius:25px;
-overflow:hidden;
-box-shadow:0 10px 20px #0003;
-
-}
-
-
-.dark .cat{
-
-background:#292033;
-
-}
-
-
-
-.cat img{
-
-width:100%;
-height:350px;
-object-fit:cover;
-
-}
-
-
-
-.info{
-
-padding:15px;
-
-}
-
-
-.name{
-
-font-size:28px;
-color:#ff4fa3;
-
-}
-
-
-.badge{
-
-background:#ffd1e8;
-padding:5px;
-border-radius:10px;
-
-}
-
-
-#dex{
-
-text-align:center;
-font-size:20px;
-
-}
-
-
-
-#uploadBox{
-
-text-align:center;
-padding:20px;
-
-}
-
-
-.messageBox{
-
-display:none;
-padding:15px;
-
-}
-
-
-.message{
-
-background:#eee;
-padding:10px;
-border-radius:15px;
-margin-top:10px;
-
-}
-
-
-.dark .message{
-
-background:#443650;
-
-}
-
-
-</style>
-
+    <title>🐱 CatTok</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+        body {
+            margin: 0;
+            background: #ffe6f2;
+            transition: .3s;
+        }
+        .dark {
+            background: #17121c;
+            color: white;
+        }
+        header {
+            background: white;
+            padding: 20px;
+            text-align: center;
+            position: sticky;
+            top: 0;
+            z-index: 5;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+        }
+        .dark header {
+            background: #292033;
+        }
+        h1 {
+            margin: 5px 0 15px 0;
+            font-size: 45px;
+            color: #ff4fa3;
+        }
+        input, textarea {
+            padding: 12px;
+            border-radius: 20px;
+            border: 2px solid pink;
+            margin: 5px;
+            outline: none;
+        }
+        button {
+            background: #ff4fa3;
+            color: white;
+            border: 0;
+            padding: 10px 15px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: transform 0.2s;
+        }
+        button:hover {
+            transform: scale(1.05);
+        }
+        .user-panel {
+            background: #fff0f7;
+            padding: 10px;
+            border-radius: 15px;
+            display: inline-block;
+            margin-bottom: 10px;
+            border: 1px dashed #ff4fa3;
+        }
+        .dark .user-panel {
+            background: #3a2e47;
+            border-color: #ff4fa3;
+        }
+        .feed {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 30px;
+            padding: 30px;
+        }
+        .cat {
+            background: white;
+            width: 360px;
+            border-radius: 25px;
+            overflow: hidden;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        }
+        .dark .cat {
+            background: #292033;
+        }
+        .cat img {
+            width: 100%;
+            height: 350px;
+            object-fit: cover;
+        }
+        .info {
+            padding: 15px;
+        }
+        .name {
+            font-size: 24px;
+            color: #ff4fa3;
+            font-weight: bold;
+        }
+        .owner-tag {
+            font-size: 12px;
+            color: #666;
+            margin-bottom: 10px;
+        }
+        .dark .owner-tag {
+            color: #bbb;
+        }
+        .badge {
+            background: #ffd1e8;
+            padding: 5px 10px;
+            border-radius: 10px;
+            font-size: 12px;
+            color: #ff1493;
+        }
+        #dex {
+            text-align: center;
+            font-size: 20px;
+            margin-top: 15px;
+        }
+        #uploadBox {
+            text-align: center;
+            padding: 20px;
+        }
+        .messageBox {
+            margin-top: 15px;
+            border-top: 1px solid #eee;
+            padding-top: 15px;
+        }
+        .messages-list {
+            margin-top: 10px;
+            max-height: 150px;
+            overflow-y: auto;
+        }
+        .message {
+            background: #f0f0f0;
+            padding: 8px 12px;
+            border-radius: 15px;
+            margin-top: 5px;
+            font-size: 13px;
+            text-align: left;
+        }
+        .dark .message {
+            background: #443650;
+        }
+        .msg-sender {
+            font-weight: bold;
+            color: #ff4fa3;
+            font-size: 11px;
+            display: block;
+        }
+        .email-btn {
+            background: #4a90e2;
+            font-size: 12px;
+            padding: 5px 10px;
+            margin-top: 5px;
+        }
+    </style>
+
+    <!-- Firebase System Modules External Load -->
+    <script src="https://gstatic.com"></script>
+    <script src="https://gstatic.com"></script>
 </head>
-
-
-
 <body>
 
-
 <header>
+    <h1>🐱 CatTok</h1>
+    
+    <div class="user-panel" id="userPanel">
+        <div id="loginForm">
+            <input id="usernameInput" placeholder="Your Name (e.g. Josie Goulet)">
+            <input id="emailInput" placeholder="Your Email">
+            <button onclick="registerAccount()">Login / Create Account</button>
+        </div>
+        <div id="profileDisplay" style="display:none;">
+            Logged in as: <strong id="currentUserDisplay" style="color:#ff4fa3"></strong> 
+            <button onclick="logout()" style="background:#aaa; padding:5px 10px; font-size:12px;">Change Account</button>
+        </div>
+    </div>
+    <br>
 
-
-<h1>🐱 CatTok</h1>
-
-
-<input id="search"
-placeholder="Search cats..."
-onkeyup="searchCats()">
-
-
-
-<br>
-
-
-<button onclick="toggleDark()">
-🌙
-</button>
-
-
-<button onclick="openUpload()">
-➕ Add Cat
-</button>
-
-
-
+    <input id="search" placeholder="Search cats..." onkeyup="searchCats()">
+    <br><br>
+    <button onclick="toggleDark()"> 🌙 Theme </button>
+    <button onclick="openUpload()"> ➕ Add Cat </button>
 </header>
 
-
-
-
 <div id="dex">
-
-🐾 CatDex:
-<span id="count">0</span>
-
+    🐾 CatDex Total: <span id="count">0</span>
 </div>
 
-
-
-<div id="uploadBox"
-style="display:none">
-
-
-<h2>Create your cat!</h2>
-
-
-<input id="catName"
-placeholder="Cat name">
-
-
-<br>
-
-
-<input type="file"
-id="catImage"
-accept="image/*">
-
-
-<br>
-
-
-<textarea id="catBio"
-placeholder="Funny cat bio"></textarea>
-
-
-<br>
-
-
-<button onclick="createCat()">
-Create 🐱
-</button>
-
-
-
+<div id="uploadBox" style="display:none">
+    <h2>Create your cat!</h2>
+    <input id="catName" placeholder="Cat name">
+    <br>
+    <input type="file" id="catImage" accept="image/*">
+    <br>
+    <textarea id="catBio" placeholder="Funny cat bio"></textarea>
+    <br>
+    <button onclick="createCat()"> Create 🐱 </button>
 </div>
 
-
-
-
-
-<div class="feed" id="feed">
-
-
-
-</div>
-
-
-
+<div class="feed" id="feed"></div>
 
 <script>
-
-
-
-let collected=0;
-
-
-let cats=[];
-
-
-
-
-function openUpload(){
-
-let box=document.getElementById("uploadBox");
-
-if(box.style.display=="none"){
-
-box.style.display="block";
-
-}
-
-else{
-
-box.style.display="none";
-
-}
-
-}
-
-
-
-
-function createCat(){
-
-
-let name=document.getElementById("catName").value;
-
-let bio=document.getElementById("catBio").value;
-
-
-let file=document.getElementById("catImage").files[0];
-
-
-
-if(!name || !file){
-
-alert("Add a name and photo!");
-
-return;
-
-}
-
-
-
-let reader=new FileReader();
-
-
-reader.onload=function(e){
-
-
-addCatCard(
-name,
-bio,
-e.target.result
-);
-
-
+// --- FIREBASE CONFIGURATION ---
+// Paste your real Firebase project link inside the quotes below to share across devices!
+const firebaseConfig = {
+    databaseURL: "https://firebaseio.com"
 };
 
+let database = null;
+let firebaseActive = false;
 
-reader.readAsDataURL(file);
-
-
-
+if (firebaseConfig.databaseURL && !firebaseConfig.databaseURL.includes("YOUR-PROJECT-ID")) {
+    try {
+        firebase.initializeApp(firebaseConfig);
+        database = firebase.database();
+        firebaseActive = true;
+    } catch (e) {
+        console.error("Firebase failed to load:", e);
+    }
 }
 
+// Local Fallback Array to instantly preview your work offline
+let localCatsList = JSON.parse(localStorage.getItem('cattok_cats_fallback')) || [
+    {
+        id: "default1",
+        name: "Mochi",
+        bio: "🍞 Professional loaf who steals blankets",
+        img: "https://placecats.com",
+        ownerName: "System",
+        ownerEmail: "admin@cattok.com",
+        messages: []
+    },
+    {
+        id: "default2",
+        name: "Beans",
+        bio: "⚡ Zoomie champion and box destroyer",
+        img: "https://placecats.com",
+        ownerName: "System",
+        ownerEmail: "admin@cattok.com",
+        messages: []
+    }
+];
 
+let currentUser = JSON.parse(localStorage.getItem('cattok_user')) || null;
+let cats = [];
 
+window.onload = function() {
+    updateUserUI();
+    
+    if (firebaseActive) {
+        database.ref('cats').on('value', (snapshot) => {
+            const data = snapshot.val();
+            cats = [];
+            if (data) {
+                Object.keys(data).forEach(key => {
+                    let catItem = data[key];
+                    catItem.id = key;
+                    if (!catItem.messages) catItem.messages = [];
+                    if (catItem.messages && !Array.isArray(catItem.messages)) {
+                        catItem.messages = Object.values(catItem.messages);
+                    }
+                    cats.unshift(catItem);
+                });
+            }
+            renderFeed();
+        });
+    } else {
+        cats = localCatsList;
+        renderFeed();
+    }
+};
 
-function addCatCard(name,bio,img){
-
-
-let card=document.createElement("div");
-
-card.className="cat";
-
-
-
-card.innerHTML=`
-
-<img src="${img}">
-
-
-<div class="info">
-
-
-<div class="name">
-${name} 🐱
-</div>
-
-
-<p>${bio}</p>
-
-
-<span class="badge">
-✨ New Cat Star
-</span>
-
-
-<br><br>
-
-
-<button onclick="collectCat(this)">
-⭐ Collect
-</button>
-
-
-
-<div class="messageBox">
-
-
-<textarea placeholder="Message owner..."></textarea>
-
-
-<button onclick="sendMessage(this)">
-Send 💌
-</button>
-
-
-<div class="messages"></div>
-
-
-
-</div>
-
-
-
-</div>
-
-`;
-
-
-
-document.getElementById("feed").prepend(card);
-
-
-
+function registerAccount() {
+    let name = document.getElementById("usernameInput").value.trim();
+    let email = document.getElementById("emailInput").value.trim();
+    
+    if(!name || !email) {
+        alert("Please enter both your name and email address to log in!");
+        return;
+    }
+    
+    currentUser = { name: name, email: email };
+    localStorage.setItem('cattok_user', JSON.stringify(currentUser));
+    updateUserUI();
+    renderFeed();
 }
 
-
-
-function collectCat(button){
-
-
-collected++;
-
-
-document.getElementById("count").innerHTML=collected;
-
-
-
-let box=
-button.parentElement.querySelector(".messageBox");
-
-
-box.style.display="block";
-
-
-button.innerHTML="⭐ Collected";
-
-button.disabled=true;
-
-
+function logout() {
+    currentUser = null;
+    localStorage.removeItem('cattok_user');
+    updateUserUI();
+    renderFeed();
 }
 
-
-
-function sendMessage(button){
-
-
-let area=
-button.parentElement.querySelector("textarea");
-
-
-let text=area.value;
-
-
-if(text){
-
-
-let msg=document.createElement("div");
-
-msg.className="message";
-
-
-msg.innerHTML="💬 "+text;
-
-
-button.parentElement.querySelector(".messages")
-.appendChild(msg);
-
-
-area.value="";
-
-
+function updateUserUI() {
+    if(currentUser) {
+        document.getElementById("loginForm").style.display = "none";
+        document.getElementById("profileDisplay").style.display = "block";
+        document.getElementById("currentUserDisplay").innerText = currentUser.name;
+    } else {
+        document.getElementById("loginForm").style.display = "block";
+        document.getElementById("profileDisplay").style.display = "none";
+    }
 }
 
-
+function openUpload() {
+    let box = document.getElementById("uploadBox");
+    box.style.display = (box.style.display === "none") ? "block" : "none";
 }
 
+// FIXED: Selected target indexing issue repaired safely
+function createCat() {
+    if(!currentUser) {
+        alert("You must create an account first before posting your cat!");
+        return;
+    }
 
+    let name = document.getElementById("catName").value.trim();
+    let bio = document.getElementById("catBio").value.trim();
+    let fileInput = document.getElementById("catImage");
 
+    if(!name || fileInput.files.length === 0) {
+        alert("Add a name and select a photo file!");
+        return;
+    }
 
-function toggleDark(){
-
-document.body.classList.toggle("dark");
-
-}
-
-
-
-
-function searchCats(){
-
-
-let text=
-document.getElementById("search")
-.value.toLowerCase();
-
-
-let cards=
-document.querySelectorAll(".cat");
-
-
-
-cards.forEach(card=>{
-
-
-if(card.innerText.toLowerCase().includes(text)){
-
-
-card.style.display="block";
-
-
-}
-
-else{
-
-
-card.style.display="none";
-
-
-}
-
-
-});
-
-
-}
-
-
-
-
-
-// starter cats
-
-
-addCatCard(
-
-"Mochi",
-
-"🍞 Professional loaf who steals blankets",
-
-"https://placecats.com/500/500"
-
-);
-
-
-
-addCatCard(
-
-"Beans",
-
-"⚡ Zoomie champion and box destroyer",
-
-"https://placecats.com/501/501"
-
-);
-
-
-
-</script>
-
-
-</body>
-
-</html>
+    let file = fileInput.files[0]; // FIXED: Selected first valid file array item safely
+    let reader = new FileReader();
+    
+    reader.onload = function(e) {
+        let newCat = {
+            id: "cat_" + Date.now(),
+            name: name,
+            bio: bio,
+            img: e.target.result, 
+            ownerName: currentUser.name,
+            ownerEmail: currentUser.email,
+            messages: []
+        };
+        
+        if (firebaseActive) {
+            database.ref('cats').push(newCat);
+        } else {
+            cats.unshift(newCat);
+            localStorage.setItem('cattok_cats_fallback', JSON.stringify(cats));
+            renderFeed();
+        }
+        
+        document.getElementById("catName").value = "";
+        document.getElementById("catBio").value = "";
